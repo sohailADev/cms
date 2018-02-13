@@ -5,13 +5,15 @@ function Redirect_to($New_Location){
     header("Location:".$New_Location);
 	exit;
 }
-
+global $ConnectingDB;
 function Login_Attempt($Username,$Password){
-    $ConnectingDB;
+
+    global $ConnectingDB;
     $Query="SELECT * FROM registration
     WHERE username='$Username' AND password='$Password'";
-    $Execute=mysql_query($Query);
-    if($admin=mysql_fetch_assoc($Execute)){
+    $Execute=mysqli_query($ConnectingDB,$Query);
+    
+    if($admin=mysqli_fetch_assoc($Execute)){
 	return $admin;
     }else{
 	return null;

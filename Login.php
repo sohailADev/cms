@@ -3,8 +3,8 @@
 <?php require_once("Include/Functions.php"); ?>
 <?php
 if(isset($_POST["Submit"])){
-$Username=mysql_real_escape_string($_POST["Username"]);
-$Password=mysql_real_escape_string($_POST["Password"]);
+$Username=mysqli_real_escape_string($ConnectingDB,$_POST["Username"]);
+$Password=mysqli_real_escape_string($ConnectingDB,$_POST["Password"]);
 
 if(empty($Username)||empty($Password)){
 	$_SESSION["ErrorMessage"]="All Fields must be filled out";

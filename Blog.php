@@ -91,8 +91,8 @@ nav ul li{
 		else{
 			
 		$ViewQuery="SELECT * FROM admin_panel ORDER BY id desc LIMIT 0,3";}
-		$Execute=mysql_query($ViewQuery);
-		while($DataRows=mysql_fetch_array($Execute)){
+		$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+		while($DataRows=mysqli_fetch_array($Execute)){
 			$PostId=$DataRows["id"];
 			$DateTime=$DataRows["datetime"];
 			$Title=$DataRows["title"];
@@ -103,7 +103,7 @@ nav ul li{
 		
 		?>
 		<div class="blogpost thumbnail">
-			<img class="img-responsive img-rounded"src="Upload/<?php echo $Image;  ?>" >
+			<img class="img-responsive img-rounded"src="images/<?php echo $Image;  ?>" >
 		<div class="caption">
 			<h1 id="heading"> <?php echo htmlentities($Title); ?></h1>
 		<p class="description">Category:<?php echo htmlentities($Category); ?> Published on
@@ -111,8 +111,8 @@ nav ul li{
 <?php
 $ConnectingDB;
 $QueryApproved="SELECT COUNT(*) FROM comments WHERE admin_panel_id='$PostId' AND status='ON'";
-$ExecuteApproved=mysql_query($QueryApproved);
-$RowsApproved=mysql_fetch_array($ExecuteApproved);
+$ExecuteApproved=mysqli_query($ConnectingDB,$QueryApproved);
+$RowsApproved=mysqli_fetch_array($ExecuteApproved);
 $TotalApproved=array_shift($RowsApproved);
 if($TotalApproved>0){
 ?>
@@ -148,8 +148,8 @@ Comments: <?php echo $TotalApproved;?>
 		<?php
 		global $ConnectingDB;
 		$QueryPagination="SELECT COUNT(*) FROM admin_panel";
-		$ExecutePagination=mysql_query($QueryPagination);
-		$RowPagination=mysql_fetch_array($ExecutePagination);
+		$ExecutePagination=mysqli_query($ConnectingDB,$QueryPagination);
+		$RowPagination=mysqli_fetch_array($ExecutePagination);
 		  $TotalPosts=array_shift($RowPagination);
 		 // echo $TotalPosts;
 		  $PostPagination=$TotalPosts/3;
@@ -183,7 +183,7 @@ Comments: <?php echo $TotalApproved;?>
 		</div> <!--Main Blog Area Ending-->
 		<div class="col-sm-offset-1 col-sm-3"> <!--Side Area -->
 			<h2>About me </h2>
-	<img class=" img-responsive img-circle imageicon" src="images/Bunny.jpg">		
+	<img class=" img-responsive img-circle imageicon" src="../images/Bunny.jpg">		
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit
 		, sed do eiusmod tempor incididunt ut labore et dolore magna
 		aliqua. Ut enim ad minim veniam, quis nostrud exercitation ul
@@ -200,8 +200,8 @@ Comments: <?php echo $TotalApproved;?>
 <?php
 global $ConnectingDB;
 $ViewQuery="SELECT * FROM category ORDER BY id desc";
-$Execute=mysql_query($ViewQuery);
-while($DataRows=mysql_fetch_array($Execute)){
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows['id'];
 	$Category=$DataRows['name'];
 ?>
@@ -228,8 +228,8 @@ while($DataRows=mysql_fetch_array($Execute)){
 <?php
 $ConnectingDB;
 $ViewQuery="SELECT * FROM admin_panel ORDER BY id desc LIMIT 0,5";
-$Execute=mysql_query($ViewQuery);
-while($DataRows=mysql_fetch_array($Execute)){
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows["id"];
 	$Title=$DataRows["title"];
 	$DateTime=$DataRows["datetime"];
@@ -237,7 +237,7 @@ while($DataRows=mysql_fetch_array($Execute)){
 	if(strlen($DateTime)>11){$DateTime=substr($DateTime,0,12);}
 	?>
 <div>
-<img class="pull-left" style="margin-top: 10px; margin-left: 0px;"  src="Upload/<?php echo htmlentities($Image); ?>" width=120; height=60;>
+<img class="pull-left" style="margin-top: 10px; margin-left: 0px;"  src="images/<?php echo htmlentities($Image); ?>" width=120; height=60;>
     <a href="FullPost.php?id=<?php echo $Id;?>">
      <p id="heading" style="margin-left: 130px; padding-top: 10px;"><?php echo htmlentities($Title); ?></p>
      </a>

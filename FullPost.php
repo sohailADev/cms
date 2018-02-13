@@ -3,9 +3,9 @@
 <?php require_once("Include/Functions.php"); ?>
 <?php
 if(isset($_POST["Submit"])){
-$Name=mysql_real_escape_string($_POST["Name"]);
-$Email=mysql_real_escape_string($_POST["Email"]);
-$Comment=mysql_real_escape_string($_POST["Comment"]);
+$Name=mysqli_real_escape_string($ConnectingDB,$_POST["Name"]);
+$Email=mysqli_real_escape_string($ConnectingDB,$_POST["Email"]);
+$Comment=mysqli_real_escape_string($ConnectingDB,$_POST["Comment"]);
 date_default_timezone_set("Asia/Karachi");
 $CurrentTime=time();
 //$DateTime=strftime("%Y-%m-%d %H:%M:%S",$CurrentTime);
@@ -24,7 +24,7 @@ if(empty($Name)||empty($Email) ||empty($Comment)){
 	$PostIDFromURL=$_GET['id'];
         $Query="INSERT into comments (datetime,name,email,comment,approvedby,status,admin_panel_id)
 	VALUES ('$DateTime','$Name','$Email','$Comment','Pending','OFF','$PostIDFromURL')";
-	$Execute=mysql_query($Query);
+	$Execute=mysqli_query($ConnectingDB,$Query);
 	if($Execute){
 	$_SESSION["SuccessMessage"]="Comment Submitted Successfully";
 	Redirect_to("FullPost.php?id={$PostId}");
@@ -135,8 +135,8 @@ background-color:#F6F7F9;
 			$PostIDFromURL=$_GET["id"];
 		$ViewQuery="SELECT * FROM admin_panel WHERE id='$PostIDFromURL'
 		ORDER BY datetime desc";}
-		$Execute=mysql_query($ViewQuery);
-		while($DataRows=mysql_fetch_array($Execute)){
+		$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+		while($DataRows=mysqli_fetch_array($Execute)){
 			$PostId=$DataRows["id"];
 			$DateTime=$DataRows["datetime"];
 			$Title=$DataRows["title"];
@@ -147,7 +147,7 @@ background-color:#F6F7F9;
 		
 		?>
 		<div class="blogpost thumbnail">
-			<img class="img-responsive img-rounded"src="Upload/<?php echo $Image;  ?>" >
+			<img class="img-responsive img-rounded"src="images/<?php echo $Image;  ?>" >
 		<div class="caption">
 			<h1 id="heading"> <?php echo htmlentities($Title); ?></h1>
 		<p class="description">Category:<?php echo htmlentities($Category); ?> Published on
@@ -166,8 +166,8 @@ $ConnectingDB;
 $PostIdForComments=$_GET["id"];
 $ExtractingCommentsQuery="SELECT * FROM comments
 WHERE admin_panel_id='$PostIdForComments' AND status='ON' ";
-$Execute=mysql_query($ExtractingCommentsQuery);
-while($DataRows=mysql_fetch_array($Execute)){
+$Execute=mysqli_query($ConnectingDB,$ExtractingCommentsQuery);
+while($DataRows=mysqli_fetch_array($Execute)){
 	$CommentDate=$DataRows["datetime"];
 	$CommenterName=$DataRows["name"];
 	$Comments=$DataRows["comment"];
@@ -231,8 +231,8 @@ while($DataRows=mysql_fetch_array($Execute)){
 <?php
 global $ConnectingDB;
 $ViewQuery="SELECT * FROM category ORDER BY id desc";
-$Execute=mysql_query($ViewQuery);
-while($DataRows=mysql_fetch_array($Execute)){
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows['id'];
 	$Category=$DataRows['name'];
 ?>
@@ -259,8 +259,8 @@ while($DataRows=mysql_fetch_array($Execute)){
 <?php
 $ConnectingDB;
 $ViewQuery="SELECT * FROM admin_panel ORDER BY id desc LIMIT 0,5";
-$Execute=mysql_query($ViewQuery);
-while($DataRows=mysql_fetch_array($Execute)){
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows["id"];
 	$Title=$DataRows["title"];
 	$DateTime=$DataRows["datetime"];
@@ -268,7 +268,7 @@ while($DataRows=mysql_fetch_array($Execute)){
 	if(strlen($DateTime)>11){$DateTime=substr($DateTime,0,12);}
 	?>
 <div>
-<img class="pull-left" style="margin-top: 10px; margin-left: 0px;"  src="Upload/<?php echo htmlentities($Image); ?>" width=120; height=60;>
+<img class="pull-left" style="margin-top: 10px; margin-left: 0px;"  src="images/<?php echo htmlentities($Image); ?>" width=120; height=60;>
     <a href="FullPost.php?id=<?php echo $Id;?>">
      <p id="heading" style="margin-left: 130px; padding-top: 10px;"><?php echo htmlentities($Title); ?></p>
      </a>
