@@ -4,9 +4,10 @@
 <?php Confirm_Login(); ?>
 <?php
 if(isset($_POST["Submit"])){
-$Title=mysql_real_escape_string($_POST["Title"]);
-$Category=mysql_real_escape_string($_POST["Category"]);
-$Post=mysql_real_escape_string($_POST["Post"]);
+	$ConnectingDB;
+$Title=mysqli_real_escape_string($ConnectingDB,$_POST["Title"]);
+$Category=mysqli_real_escape_string($ConnectingDB,$_POST["Category"]);
+$Post=mysqli_real_escape_string($ConnectingDB,$_POST["Post"]);
 date_default_timezone_set("Asia/Karachi");
 $CurrentTime=time();
 //$DateTime=strftime("%Y-%m-%d %H:%M:%S",$CurrentTime);
@@ -30,7 +31,7 @@ if(empty($Title)){
 	category='$Category', author='$Admin',image='$Image',post='$Post'
 	WHERE id='$EditFromURL'";
 	
-	$Execute=mysql_query($Query);
+	$Execute=mysqli_query($ConnectingDB$Query);
 	move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
 	if($Execute){
 	$_SESSION["SuccessMessage"]="Post Updated Successfully";

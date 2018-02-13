@@ -107,9 +107,9 @@
 <?php
 $ConnectingDB;
 $Query="SELECT * FROM comments WHERE status='OFF' ORDER BY id desc";
-$Execute=mysql_query($Query);
+$Execute=mysqli_query($ConnectingDB,$Query);
 $SrNo=0;
-while($DataRows=mysql_fetch_array($Execute)){
+while($DataRows=mysqli_fetch_array($Execute)){
 	$CommentId=$DataRows['id'];
 	$DateTimeofComment=$DataRows['datetime'];
 	$PersonName=$DataRows['name'];
@@ -155,9 +155,9 @@ if(strlen($PersonName) >10) { $PersonName = substr($PersonName, 0, 10).'..';}
 <?php
 $ConnectingDB;
 $Query="SELECT * FROM comments WHERE status='ON' ORDER BY id desc";
-$Execute=mysql_query($Query);
+$Execute=mysqli_query($ConnectingDB,$Query);
 $SrNo=0;
-while($DataRows=mysql_fetch_array($Execute)){
+while($DataRows=mysqli_fetch_array($Execute)){
 	$CommentId=$DataRows['id'];
 	$DateTimeofComment=$DataRows['datetime'];
 	$PersonName=$DataRows['name'];

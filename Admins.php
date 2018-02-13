@@ -4,9 +4,9 @@
 <?php Confirm_Login(); ?>
 <?php
 if(isset($_POST["Submit"])){
-$Username=mysql_real_escape_string($_POST["Username"]);
-$Password=mysql_real_escape_string($_POST["Password"]);
-$ConfirmPassword=mysql_real_escape_string($_POST["ConfirmPassword"]);
+$Username=mysqli_real_escape_string($ConnectingDB,$_POST["Username"]);
+$Password=mysqli_real_escape_string($ConnectingDB,$_POST["Password"]);
+$ConfirmPassword=mysqli_real_escape_string($ConnectingDB,$_POST["ConfirmPassword"]);
 date_default_timezone_set("Asia/Karachi");
 $CurrentTime=time();
 //$DateTime=strftime("%Y-%m-%d %H:%M:%S",$CurrentTime);
@@ -30,7 +30,7 @@ else{
 	global $ConnectingDB;
 	$Query="INSERT INTO registration(datetime,username,password,addedby)
 	VALUES('$DateTime','$Username','$Password','$Admin')";
-	$Execute=mysql_query($Query);
+	$Execute=mysqli_query($ConnectingDB,$Query);
 	if($Execute){
 	$_SESSION["SuccessMessage"]="Admin Added Successfully";
 	Redirect_to("Admins.php");
@@ -175,9 +175,9 @@ else{
 <?php
 global $ConnectingDB;
 $ViewQuery="SELECT * FROM registration ORDER BY id desc";
-$Execute=mysql_query($ViewQuery);
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
 $SrNo=0;
-while($DataRows=mysql_fetch_array($Execute)){
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows["id"];
 	$DateTime=$DataRows["datetime"];
 	$Username=$DataRows["username"];

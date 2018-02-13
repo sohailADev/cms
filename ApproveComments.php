@@ -7,7 +7,7 @@ if(isset($_GET["id"])){
     $ConnectingDB;
     $Admin=$_SESSION["Username"];
 $Query="UPDATE comments SET status='ON', approvedby='$Admin' WHERE id='$IdFromURL' ";
-$Execute=mysql_query($Query);
+$Execute=mysqli_query($ConnectingDB,$Query);
 if($Execute){
 	$_SESSION["SuccessMessage"]="Comment Approved Successfully";
 	Redirect_to("Comments.php");

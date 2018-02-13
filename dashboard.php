@@ -83,8 +83,8 @@
 <?php
 $ConnectingDB;
 $QueryTotal="SELECT COUNT(*) FROM comments WHERE status='OFF'";
-$ExecuteTotal=mysql_query($QueryTotal);
-$RowsTotal=mysql_fetch_array($ExecuteTotal);
+$ExecuteTotal=mysqli_query($ConnectingDB,$QueryTotal);
+$RowsTotal=mysqli_fetch_array($ExecuteTotal);
 $Total=array_shift($RowsTotal);
 if($Total>0){
 ?>
