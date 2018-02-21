@@ -132,9 +132,9 @@ if($Total>0){
 <?php
 $ConnectingDB;
 $ViewQuery="SELECT * FROM admin_panel ORDER BY id desc;";
-$Execute=mysql_query($ViewQuery);
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
 $SrNo=0;
-while($DataRows=mysql_fetch_array($Execute)){
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows["id"];
 	$DateTime=$DataRows["datetime"];
 	$Title=$DataRows["title"];
@@ -162,13 +162,13 @@ while($DataRows=mysql_fetch_array($Execute)){
 	if(strlen($Category)>10){$Category=substr($Category,0,10);}
 	echo $Category;
 	?></td>
-	<td><img src="Upload/<?php echo $Image; ?>" width="170px"; height="50px"></td>
+	<td><img src="images/<?php echo $Image; ?>" width="170px"; height="50px"></td>
 	<td>
 <?php
 $ConnectingDB;
 $QueryApproved="SELECT COUNT(*) FROM comments WHERE admin_panel_id='$Id' AND status='ON'";
-$ExecuteApproved=mysql_query($QueryApproved);
-$RowsApproved=mysql_fetch_array($ExecuteApproved);
+$ExecuteApproved=mysqli_query($ConnectingDB,$QueryApproved);
+$RowsApproved=mysqli_fetch_array($ExecuteApproved);
 $TotalApproved=array_shift($RowsApproved);
 if($TotalApproved>0){
 ?>
@@ -181,8 +181,8 @@ if($TotalApproved>0){
 <?php
 $ConnectingDB;
 $QueryUnApproved="SELECT COUNT(*) FROM comments WHERE admin_panel_id='$Id' AND status='OFF'";
-$ExecuteUnApproved=mysql_query($QueryUnApproved);
-$RowsUnApproved=mysql_fetch_array($ExecuteUnApproved);
+$ExecuteUnApproved=mysqli_query($ConnectingDB,$QueryUnApproved);
+$RowsUnApproved=mysqli_fetch_array($ExecuteUnApproved);
 $TotalUnApproved=array_shift($RowsUnApproved);
 if($TotalUnApproved>0){
 ?>

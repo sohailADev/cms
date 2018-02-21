@@ -3,10 +3,11 @@
 <?php require_once("Include/Functions.php"); ?>
 <?php Confirm_Login(); ?>
 <?php
+$ConnectingDB;
 if(isset($_POST["Submit"])){
-$Title=mysql_real_escape_string($_POST["Title"]);
-$Category=mysql_real_escape_string($_POST["Category"]);
-$Post=mysql_real_escape_string($_POST["Post"]);
+$Title=mysqli_real_escape_string($ConnectingDB,$_POST["Title"]);
+$Category=mysqli_real_escape_string($ConnectingDB,$_POST["Category"]);
+$Post=mysqli_real_escape_string($ConnectingDB,$_POST["Post"]);
 date_default_timezone_set("Asia/Karachi");
 $CurrentTime=time();
 //$DateTime=strftime("%Y-%m-%d %H:%M:%S",$CurrentTime);
@@ -20,7 +21,7 @@ $Target="Upload/".basename($_FILES["Image"]["name"]);
 	$DeleteFromURL=$_GET['Delete'];
 	$Query="DELETE FROM admin_panel WHERE id='$DeleteFromURL'";
 	
-	$Execute=mysql_query($Query);
+	$Execute=mysqli_query($ConnectingDB,$Query);
 	move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
 	if($Execute){
 	$_SESSION["SuccessMessage"]="Post Deleted Successfully";
@@ -137,8 +138,8 @@ $Target="Upload/".basename($_FILES["Image"]["name"]);
 	$SerachQueryParameter=$_GET['Delete'];
 	$ConnectingDB;
 	$Query="SELECT * FROM admin_panel WHERE id='$SerachQueryParameter'";
-	$ExecuteQuery=mysql_query($Query);
-	while($DataRows=mysql_fetch_array($ExecuteQuery)){
+	$ExecuteQuery=mysqli_query($ConnectingDB,$Query);
+	while($DataRows=mysqli_fetch_array($ExecuteQuery)){
 		$TitleToBeUpdated=$DataRows['title'];
 		$CategoryToBeUpdated=$DataRows['category'];
 		$ImageToBeUpdated=$DataRows['image'];
@@ -163,8 +164,8 @@ $Target="Upload/".basename($_FILES["Image"]["name"]);
 	<?php
 global $ConnectingDB;
 $ViewQuery="SELECT * FROM category ORDER BY datetime desc";
-$Execute=mysql_query($ViewQuery);
-while($DataRows=mysql_fetch_array($Execute)){
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows["id"];
 	$CategoryName=$DataRows["name"];
 ?>	

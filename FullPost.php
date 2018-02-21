@@ -13,6 +13,7 @@ $DateTime=strftime("%B-%d-%Y %H:%M:%S",$CurrentTime);
 $DateTime;
 $PostId=$_GET["id"];
 
+
 if(empty($Name)||empty($Email) ||empty($Comment)){
 	$_SESSION["ErrorMessage"]="All Fields are required";
 	

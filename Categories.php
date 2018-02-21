@@ -3,8 +3,9 @@
 <?php require_once("Include/Functions.php"); ?>
 <?php Confirm_Login(); ?>
 <?php
+ $ConnectingDB;
 if(isset($_POST["Submit"])){
-$Category=mysql_real_escape_string($_POST["Category"]);
+$Category=mysqli_real_escape_string( $ConnectingDB,$_POST["Category"]);
 date_default_timezone_set("Asia/Karachi");
 $CurrentTime=time();
 //$DateTime=strftime("%Y-%m-%d %H:%M:%S",$CurrentTime);
@@ -23,7 +24,7 @@ if(empty($Category)){
 	global $ConnectingDB;
 	$Query="INSERT INTO category(datetime,name,creatorname)
 	VALUES('$DateTime','$Category','$Admin')";
-	$Execute=mysql_query($Query);
+	$Execute=mysqli_query( $ConnectingDB,$Query);
 	if($Execute){
 	$_SESSION["SuccessMessage"]="Category Added Successfully";
 	Redirect_to("Categories.php");
@@ -160,9 +161,9 @@ if(empty($Category)){
 <?php
 global $ConnectingDB;
 $ViewQuery="SELECT * FROM category ORDER BY id desc";
-$Execute=mysql_query($ViewQuery);
+$Execute=mysqli_query ($ConnectingDB,$ViewQuery);
 $SrNo=0;
-while($DataRows=mysql_fetch_array($Execute)){
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows["id"];
 	$DateTime=$DataRows["datetime"];
 	$CategoryName=$DataRows["name"];

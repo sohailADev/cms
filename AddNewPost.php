@@ -3,16 +3,18 @@
 <?php require_once("Include/Functions.php"); ?>
 <?php Confirm_Login(); ?>
 <?php
+$ConnectingDB;
 if(isset($_POST["Submit"])){
-$Title=mysql_real_escape_string($_POST["Title"]);
-$Category=mysql_real_escape_string($_POST["Category"]);
-$Post=mysql_real_escape_string($_POST["Post"]);
+$Title=mysqli_real_escape_string($ConnectingDB,$_POST["Title"]);
+$Category=mysqli_real_escape_string($ConnectingDB,$_POST["Category"]);
+$Post=mysqli_real_escape_string($ConnectingDB,$_POST["Post"]);
 date_default_timezone_set("Asia/Karachi");
 $CurrentTime=time();
 //$DateTime=strftime("%Y-%m-%d %H:%M:%S",$CurrentTime);
 $DateTime=strftime("%B-%d-%Y %H:%M:%S",$CurrentTime);
 $DateTime;
 $Admin=$_SESSION["Username"];
+
 $Image=$_FILES["Image"]["name"];
 $Target="Upload/".basename($_FILES["Image"]["name"]);
 if(empty($Title)){
@@ -27,12 +29,14 @@ if(empty($Title)){
 	global $ConnectingDB;
 	$Query="INSERT INTO admin_panel(datetime,title,category,author,image,post)
 	VALUES('$DateTime','$Title','$Category','$Admin','$Image','$Post')";
-	$Execute=mysql_query($Query);
+	$Execute=mysqli_query( $ConnectingDB,$Query);
 	move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
 	if($Execute){
 	$_SESSION["SuccessMessage"]="Post Added Successfully";
 	Redirect_to("AddNewPost.php");
-	}else{
+	}
+	else
+	{
 	$_SESSION["ErrorMessage"]="Something Went Wrong. Try Again !";
 	Redirect_to("AddNewPost.php");
 		
@@ -140,6 +144,8 @@ if(empty($Title)){
 	      echo SuccessMessage();
 	?>
 <div>
+
+
 <form action="AddNewPost.php" method="post" enctype="multipart/form-data">
 	<fieldset>
 	<div class="form-group">
@@ -152,8 +158,8 @@ if(empty($Title)){
 	<?php
 global $ConnectingDB;
 $ViewQuery="SELECT * FROM category ORDER BY id desc";
-$Execute=mysql_query($ViewQuery);
-while($DataRows=mysql_fetch_array($Execute)){
+$Execute=mysqli_query($ConnectingDB,$ViewQuery);
+while($DataRows=mysqli_fetch_array($Execute)){
 	$Id=$DataRows["id"];
 	$CategoryName=$DataRows["name"];
 ?>	
@@ -174,6 +180,11 @@ while($DataRows=mysql_fetch_array($Execute)){
 	</fieldset>
 	<br>
 </form>
+
+
+
+
+
 </div>
 
 
